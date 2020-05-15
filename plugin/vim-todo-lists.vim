@@ -348,7 +348,11 @@ endfunction
 
 " Appends date at the end of the line
 function! VimTodoListsAppendDate()
-  if(g:VimTodoListsDatesEnabled == 1)
+    let l:line = getline(".")
+    echom 'actual line' . l:line
+    let l:pattern = '^\s*- \[ \] $'
+    let l:isEmpty = match(l:line, l:pattern) 
+    if(g:VimTodoListsDatesEnabled == 1 && match(l:line, ')$') == -1 && l:isEmpty == -1)
     let l:date = strftime(g:VimTodoListsDatesFormat)
     execute "s/$/ (" . l:date . ")"
   endif
